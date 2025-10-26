@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hashpeek Examples - Practical Usage Guide</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        .example {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .example h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .scenario {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .use-case {
+            padding: 20px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hashpeek Examples</h1>
+        <p>Practical usage examples and real-world scenarios</p>
+    </header>
+
+    <nav>
+        <a href="../../index.html">Home</a>
+        <a href="index.html">Hashpeek</a>
+        <a href="download.html">Download</a>
+        <a href="docs.html">Documentation</a>
+        <a href="examples.html">Examples</a>
+    </nav>
+
+    <main>
+        <section class="intro">
+            <h2>Practical Hashpeek Usage Examples</h2>
+            <p>Learn how to use Hashpeek in real-world scenarios with these practical examples.</p>
+        </section>
+
+        <section class="quick-examples">
+            <h2>🚀 Quick Start Examples</h2>
+
+            <div class="example">
+                <h3>Basic Hash Identification</h3>
+                <p>Identify a single hash string</p>
+                <div class="code-block">
+./hashpeek -t '5f4dcc3b5aa765d61d8327deb882cf99'
+                </div>
+                <p><strong>Output:</strong> Identifies as MD5 hash with high confidence</p>
+            </div>
+
+            <div class="example">
+                <h3>Analyze Hash from File</h3>
+                <p>Extract and identify hashes from a text file</p>
+                <div class="code-block">
+./hashpeek -f hashes.txt
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Pipe Input from Another Command</h3>
+                <p>Process output from other tools</p>
+                <div class="code-block">
+cat logfile.txt | grep 'password' | ./hashpeek -
+                </div>
+            </div>
+        </section>
+
+        <section class="advanced-examples">
+            <h2>🔧 Advanced Usage Scenarios</h2>
+
+            <div class="scenario">
+                <h3>📊 Forensic Analysis - Memory Dumps</h3>
+                <p>Extract potential hashes from binary memory dumps</p>
+                <div class="code-block">
+./hashpeek -f memory.dmp -pb 32 -me 3.8 -ovh -t 4
+                </div>
+                <p><strong>Explanation:</strong><br>
+                - <code>-pb 32</code>: Probe for 32-byte sequences<br>
+                - <code>-me 3.8</code>: Minimum entropy 3.8 to filter random data<br>
+                - <code>-ovh</code>: Only output valid hashes<br>
+                - <code>-t 4</code>: Use 4 threads for faster processing</p>
+            </div>
+
+            <div class="scenario">
+                <h3>🔍 Log File Analysis</h3>
+                <p>Extract hashes with context from application logs</p>
+                <div class="code-block">
+./hashpeek -f app.log -e-ctext 'token,password,secret' -me 3.4 --json
+                </div>
+                <p><strong>Explanation:</strong><br>
+                - <code>-e-ctext</code>: Extract context around keywords<br>
+                - <code>--json</code>: Output in JSON format for further processing</p>
+            </div>
+
+            <div class="scenario">
+                <h3>🗃️ Structured Data Extraction</h3>
+                <p>Extract specific fields from structured files</p>
+                <div class="code-block">
+# From /etc/shadow files
+./hashpeek -f shadow.txt -fd '{2} :' -j
+
+# From CSV files  
+./hashpeek -f users.csv -fd '{3} ,' -hc
+
+# From colon-delimited data
+./hashpeek -f data.txt -fd '{2} :' -ni
+                </div>
+            </div>
+
+            <div class="scenario">
+                <h3>⚡ High-Performance Bulk Processing</h3>
+                <p>Process large files efficiently</p>
+                <div class="code-block">
+./hashpeek -f huge_dump.txt -mr 1000 -t 8 -ml 1024 --json > results.json
+                </div>
+                <p><strong>Explanation:</strong><br>
+                - <code>-mr 1000</code>: Limit to 1000 results<br>
+                - <code>-t 8</code>: Use 8 threads<br>
+                - <code>-ml 1024</code>: Limit to 1GB RAM<br>
+                - <code>--json</code>: Output to file for analysis</p>
+            </div>
+        </section>
+
+        <section class="use-cases">
+            <h2>🎯 Real-World Use Cases</h2>
+            
+            <div class="use-case-grid">
+                <div class="use-case">
+                    <h4>🛡️ Security Incident Response</h4>
+                    <p>Quickly identify and extract hashes from compromised system logs, memory dumps, and configuration files during security incidents.</p>
+                    <div class="code-block">
+./hashpeek -f incident_logs/ -pb 32-64 -ovh -t 4 --csv
+                    </div>
+                </div>
+
+                <div class="use-case">
+                    <h4>🔐 Password Audit</h4>
+                    <p>Extract and identify password hashes from various system files for security auditing and password policy enforcement.</p>
+                    <div class="code-block">
+./hashpeek -f shadow.bak -fd '{2} :' -hc -j
+                    </div>
+                </div>
+
+                <div class="use-case">
+                    <h4>📝 Log Analysis</h4>
+                    <p>Find and identify API tokens, session IDs, and other sensitive data in application logs.</p>
+                    <div class="code-block">
+./hashpeek -f api.log -e-ctext 'token,key' -me 3.5
+                    </div>
+                </div>
+
+                <div class="use-case">
+                    <h4>🧩 Data Recovery</h4>
+                    <p>Recover and identify hash data from corrupted files, binary blobs, and forensic images.</p>
+                    <div class="code-block">
+./hashpeek -f corrupted.dat -pb 16-128 -me 3.0 -ovh
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="output-examples">
+            <h2>📄 Output Format Examples</h2>
+
+            <div class="example">
+                <h3>JSON Output</h3>
+                <div class="code-block">
+./hashpeek -t '5f4dcc3b5aa765d61d8327deb882cf99' --json
+                </div>
+                <pre class="code-block">
+{
+  "hash": "5f4dcc3b5aa765d61d8327deb882cf99",
+  "type": "MD5",
+  "confidence": 95,
+  "length": 32,
+  "pattern": "hexadecimal"
+}</pre>
+            </div>
+
+            <div class="example">
+                <h3>Hashcat Format</h3>
+                <div class="code-block">
+./hashpeek -f hashes.txt -hc
+                </div>
+                <p>Outputs hashes in Hashcat-compatible format</p>
+            </div>
+
+            <div class="example">
+                <h3>John the Ripper Format</h3>
+                <div class="code-block">
+./hashpeek -f shadow.txt -fd '{2} :' -j
+                </div>
+                <p>Outputs in John the Ripper format for password cracking</p>
+            </div>
+        </section>
+
+        <section class="pro-tips">
+            <h2>💡 Pro Tips</h2>
+            <div class="use-case">
+                <h4>Optimizing Performance</h4>
+                <ul>
+                    <li>Use <code>-t</code> with your CPU core count for large files</li>
+                    <li>Set <code>-ml</code> to prevent memory exhaustion on huge files</li>
+                    <li>Use <code>-mr</code> to limit results when you only need samples</li>
+                </ul>
+
+                <h4>Improving Accuracy</h4>
+                <ul>
+                    <li>Start with <code>-me 3.5</code> and adjust based on results</li>
+                    <li>Use <code>-ovh</code> when you only want valid hashes</li>
+                    <li>Combine <code>-pb</code> with entropy filtering for binary files</li>
+                </ul>
+
+                <h4>Workflow Integration</h4>
+                <ul>
+                    <li>Pipe results to other tools: <code>hashpeek -f file.txt | grep MD5</code></li>
+                    <li>Use JSON output for automated processing</li>
+                    <li>Combine with grep/sed for complex extraction pipelines</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer style="text-align: center; margin-top: 50px; padding: 20px; border-top: 1px solid #eee;">
+        <p>Need more examples? <a href="docs.html">Check the full documentation</a> or <a href="https://github.com/ph4mished/hashpeek/issues">open an issue</a>.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hashpeek Documentation</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Hashpeek Documentation</h1>
+        <p>Complete guide to using Hashpeek</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="downloads.html">Download</a>
+        <a href="docs.html">Documentation</a>
+        <a href="examples.html">Examples</a>
+    </nav>
+
+    <main>
+        <section class="docs">
+            <h2>Usage Guide</h2>
+            
+            <h3>Basic Usage</h3>
+            <pre><code>./hashpeek [OPTIONS] [input]</code></pre>
+
+            <h3>Options Reference</h3>
+            
+            <div class="option-group">
+                <h4>Input Options</h4>
+                <ul>
+                    <li><code>-t, --text &lt;hashstring&gt;</code> - Analyze a single hash</li>
+                    <li><code>-f, --file &lt;path&gt;</code> - Analyze file</li>
+                </ul>
+            </div>
+
+            <div class="option-group">
+                <h4>Extraction Options</h4>
+                <ul>
+                    <li><code>-fd, --field '{N} X'</code> - Capture segment at index N after splitting by delimiter X</li>
+                    <li><code>-pb, --probe &lt;lengths&gt;</code> - Probe for embedded hashes</li>
+                    <li><code>-e-ctext, --extract-context &lt;words&gt;</code> - Extract near context words</li>
+                </ul>
+            </div>
+
+            <!-- Add all the other options from your help text -->
+        </section>
+    </main>
+</body>
+</html>
